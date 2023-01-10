@@ -5,7 +5,7 @@
 }
 
 body {
-	max-width: 750px;
+	max-width: 1000px;
 	margin: 0 auto;
 }
 
@@ -23,7 +23,7 @@ body {
 	align-items: center;
 	padding: 10px;
 	height: 60px;
-	width: 500px;
+	width: 700px;
 	box-shadow: 0 4px 8px 0 rgba(160, 160, 160, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 15px;
 }
@@ -70,9 +70,31 @@ body {
 	color: #61cb7d;
 }
 
-.Péages > .operation-icon {
+.peages > .operation-icon {
 	background-color: #f8e32aaa;
 }
 
+.salaire_variable > .operation-icon {
+	background-color: #99e5ae;
+}
+
+.fast-food > .operation-icon {
+	background-color: #ee7b71;
+}
+
+.courses > .operation-icon {
+	background-color: #c3e267;
+}
+
 .separator {
+}
+
+@media (max-width: 1000px) {
+	body {
+		max-width: 750px;
+	}
+
+	.operation {
+		width: 500px;
+	}
 }

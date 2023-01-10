@@ -41,9 +41,12 @@ fetch('operations.csv')
 				date: date,
 				label: row.label,
 				category: row.category,
-				amount: row.amount ? parseFloat(row.amount.replace(',', '.')) : row.amount,
+				categoryParent: row.categoryParent,
+				amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
 				accountLabel: row.accountLabel,
-				accountBalance: row.accountbalance ? parseFloat(row.accountbalance.replace(',', '.')) : row.accountbalance,
+				accountBalance: row.accountbalance
+					? parseFloat(row.accountbalance.replace(',', '.')).toFixed(2)
+					: row.accountbalance,
 				xMonthsAgo: totalMonthDiff,
 			});
 		});
@@ -58,6 +61,7 @@ fetch('operations.csv')
 					date: 'undefined',
 					label: getMonthName(parseInt(month, 10)) + ' ' + year,
 					category: 'separator',
+					categoryParent: 'undefined',
 					amount: 'undefined',
 					accountLabel: 'undefined',
 					accountBalance: 'undefined',
@@ -112,9 +116,7 @@ function displayOperations(operations, operationsElement) {
 					amountElement.innerText = '+' + operation.amount + '€';
 				}
 				operationElement.appendChild(amountElement);
-				assignClasses(operation).forEach((className) => {
-					operationElement.classList.add(className);
-				});
+				assignClasses(operation, operationElement); // assign classes to operationElement based on operation properties
 				operationsElement.appendChild(operationElement);
 			}
 		}
@@ -124,21 +126,6 @@ function displayOperations(operations, operationsElement) {
 
 function calcMonthDiff(now, date) {
 	return (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
-}
-
-function assignClasses(operation) {
-	const classes = [];
-	classes.push('operation');
-	switch (operation.accountLabel) {
-		case 'BOURSORAMA BANQUE':
-			classes.push('Bourso');
-			break;
-		default:
-			classes.push(operation.accountLabel.replaceAll(' ', '_').replaceAll(',', ''));
-			break;
-	}
-	classes.push(operation.category.replaceAll(' ', '_').replaceAll(',', ''));
-	return classes;
 }
 
 function formatDate(date) {
