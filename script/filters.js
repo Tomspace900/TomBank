@@ -51,6 +51,8 @@ function assignClasses(operation, operationElement) {
 	}
 	// ajoute la ou les catégorie(s)
 	classes.push(formatString(operation.category));
+	// ajoute la classe credit ou debit
+	classes.push(operation.amount > 0 ? 'credit' : 'debit');
 	// boucle sur la liste pour ajouter toutes les classes à l'élément
 	classes.forEach((className) => {
 		operationElement.classList.add(className);

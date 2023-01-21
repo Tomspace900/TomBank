@@ -20,17 +20,12 @@ const filteredMainCategories = {
 	vie_quotidienne: ['Vie quotidienne'],
 	amendes: [],
 	voiture: ['Auto & Moto'],
-	cadeaux: ['Cadeaux et solidarité'],
+	cadeaux: ['Cadeaux et solidarité', 'Dépots (cartes/chéques/espèces)'],
 	ecommerce: [],
 	vetements: [],
 	maison: ['Logement'],
 	activites: ['Loisirs'],
-	banque: [
-		'Services financiers & professionnels',
-		'Emprunts (hors immobilier)',
-		'Retraits cash',
-		'Dépots (cartes/chéques/espèces)',
-	],
+	banque: ['Services financiers & professionnels', 'Emprunts (hors immobilier)', 'Retraits cash'],
 	autres: ['Non catégorisé', 'Virements émis'],
 };
 
@@ -73,6 +68,8 @@ const filteredLabels = {
 		'pizza hut',
 		'pizzahut',
 		'pizza',
+		'carls jr',
+		'carl s jr',
 	],
 	'resto/bar': [
 		'lydia',
@@ -99,12 +96,13 @@ const filteredLabels = {
 	ecole: ['efrei', 'crous'],
 	transports: [
 		'fluow', // veligo
+		'easybook',
 	],
 	voyages: [],
 	sante: ['pharmacie'],
 	revenus: [],
 	remboursements: ['remb', 'remboursement'],
-	mouvements_internes: [],
+	mouvements_internes: ['interne'],
 	impots: [],
 	vie_quotidienne: [],
 	amendes: [],

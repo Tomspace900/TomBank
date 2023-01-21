@@ -7,18 +7,43 @@
 	</head>
 
 	<body>
-		<h1>TomBank</h1>
-		<button id="save-button">Save</button>
-		<div id="operations">
-			<div class="operation">
-				<div class="operation-icon"></div>
+		<div id="header">
+			<h1 id="title">🏦 TomBank</h1>
+			<button id="save-button">Save file</button>
+		</div>
+		<ul id="operations">
+			<li class="operation">
+				<div class="operation-icon" id="operation-icon"></div>
 				<div class="operation-content">
 					<div class="operation-label">[label]</div>
 					<div class="operation-date">[date]</div>
 				</div>
 				<div class="operation-amount">[amount]</div>
-			</div>
-		</div>
+				<div class="popup" id="popup">
+					<ul class="dropdown">
+						<li>Option 1</li>
+						<li>Option 2</li>
+						<li>Option 3</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<!-- bouton pour remonter en haut de la page -->
+		<button id="scroll-top-button">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="icon icon-tabler icon-tabler-chevron-up"
+				width="44"
+				height="44"
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+				<polyline points="6 15 12 9 18 15" />
+			</svg>
+		</button>
 	</body>
 </html>
 
@@ -26,11 +51,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
 <!-- file saver -->
 <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script src="script/buttons.js"></script>
 <script src="script/filters.js"></script>
 <script src="script/categories.js"></script>
 <script src="script/script.js"></script>
 
 <!-- TODO : 
+- /!\ add id to operations /!\
 - edit category with UI
 - rename labels 'CARTE 09/01/23' et 'CD*1642'
 - rename labels 'okali' -> 'lydia'
