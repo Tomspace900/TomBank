@@ -27,6 +27,7 @@ fetch('operations.csv')
 		const rows = Papa.parse(text, { header: true }).data;
 		const now = new Date(Date.now());
 		rows.forEach((row) => {
+			if (row.dateOp && row.dateOp !== '') {
 			const date = setDate(row.dateOp, row.label);
 			const year = date.getFullYear();
 			const month = date.getMonth();
@@ -164,8 +165,8 @@ function createNewCSV(fileName) {
 
 function setDate(dateOp, label) {
 	const dateFormat = /\d{2}\/\d{2}\/\d{2}/;
-	let date = new Date(dateOp);
-	let match = label.match(dateFormat);
+	let date = dateOp ? new Date(dateOp) : undefined;
+	let match = label ? label.match(dateFormat) : undefined;
 	if (match) {
 		const [day, month, year] = match[0].split("/").map(Number);
 		date = new Date(year + 2000, month - 1, day);
