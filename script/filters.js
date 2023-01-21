@@ -1,8 +1,7 @@
 function filterOperations(operations) {
 	operations.forEach((operation) => {
 		if (filterOnLabelAndCategories(operation)) {
-		}
-		else if (operation.category !== ('separator' || 'undefined' || undefined)) {
+		} else if (operation.category !== ('separator' || 'undefined' || undefined)) {
 			operation.category = 'autres';
 		}
 	});
@@ -12,7 +11,7 @@ function filterOperations(operations) {
 function filterOnLabelAndCategories(operation) {
 	const label = formatString(operation.label);
 	const category = formatString(operation.category);
-	const categoryMain = formatString(operation.categoryParent);
+	const categoryMain = formatString(operation.categoryMain);
 	for (const [name, list] of Object.entries(filteredLabels)) {
 		if (list.some((keyword) => label.includes(formatString(keyword)))) {
 			operation.category = name;
@@ -60,9 +59,20 @@ function assignClasses(operation, operationElement) {
 
 function formatString(string) {
 	try {
-		return string.toLowerCase().replaceAll(' ', '_').replaceAll(',', '').replaceAll('é', 'e').replaceAll('è', 'e').replaceAll('ê', 'e').replaceAll('à', 'a').replaceAll('â', 'a').replaceAll('î', 'i').replaceAll('ô', 'o').replaceAll('û', 'u').replaceAll('ç', 'c');
-	}
-	catch (error) {
+		return string
+			.toLowerCase()
+			.replaceAll(' ', '_')
+			.replaceAll(',', '')
+			.replaceAll('é', 'e')
+			.replaceAll('è', 'e')
+			.replaceAll('ê', 'e')
+			.replaceAll('à', 'a')
+			.replaceAll('â', 'a')
+			.replaceAll('î', 'i')
+			.replaceAll('ô', 'o')
+			.replaceAll('û', 'u')
+			.replaceAll('ç', 'c');
+	} catch (error) {
 		return 'undefined';
 	}
 }

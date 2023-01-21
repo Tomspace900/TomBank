@@ -1,67 +1,64 @@
-.fastfood>.operation-icon {
+.fastfood > .operation-icon {
 	background-color: #da7df9;
 }
-.resto\/bar>.operation-icon {
+.resto\/bar > .operation-icon {
 	background-color: #da7df9;
 }
-.courses>.operation-icon {
+.courses > .operation-icon {
 	background-color: #c3e267;
 }
-.abonnements\/telephonie>.operation-icon {
+.abonnements\/telephonie > .operation-icon {
 	background-color: #5cc1f8;
 }
-.ecole>.operation-icon {
+.ecole > .operation-icon {
 	background-color: #f8ac56;
 }
-.transports>.operation-icon {
+.transports > .operation-icon {
 	background-color: #f8e32a;
 }
-.voyages>.operation-icon {
+.voyages > .operation-icon {
 	background-color: #f8e32a;
 }
-.sante>.operation-icon {
+.sante > .operation-icon {
 	background-color: #fa9edf;
 }
-.revenus>.operation-icon {
+.revenus > .operation-icon {
 	background-color: #99e5ae;
 }
-.remboursements>.operation-icon {
+.remboursements > .operation-icon {
 	background-color: #99e5ae;
 }
-.mouvements_internes>.operation-icon {
+.mouvements_internes > .operation-icon {
 }
-.impots>.operation-icon {
+.impots > .operation-icon {
 	background-color: #5687f8;
 }
-.vie_quotidienne>.operation-icon {
+.vie_quotidienne > .operation-icon {
 	background-color: #47cfc3aa;
 }
-.amendes>.operation-icon {
+.amendes > .operation-icon {
 	background-color: #5687f8;
 }
-.voiture>.operation-icon {
+.voiture > .operation-icon {
 	background-color: #f8e32a;
 }
-.cadeaux>.operation-icon {
+.cadeaux > .operation-icon {
 	background-color: #f8ac56;
 }
-.ecommerce>.operation-icon {
+.ecommerce > .operation-icon {
 	background-color: #da6e85;
 }
-.vetements>.operation-icon {
+.vetements > .operation-icon {
 	background-color: #da6e85;
 }
-.maison>.operation-icon {
-
+.maison > .operation-icon {
 }
-.activites>.operation-icon {
+.activites > .operation-icon {
 	background-color: #da7df9;
 }
-.banque>.operation-icon {
-
+.banque > .operation-icon {
 }
-.autres>.operation-icon {
-
+.autres > .operation-icon {
 }
 
 /* --------------------------------------------------------- */

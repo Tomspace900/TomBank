@@ -5,9 +5,9 @@ let editedOperations = [];
 // élément HTML qui contient les operations
 const operationsElement = document.getElementById('operations');
 // bouton pour sauvegarder les operations dans un nouveau fichier CSV
-const saveButton = document.getElementById("save-button");
-saveButton.addEventListener("click", () => {
-	createNewCSV("new_operations.csv");
+const saveButton = document.getElementById('save-button');
+saveButton.addEventListener('click', () => {
+	createNewCSV('new_operations.csv');
 });
 // nombre de mois à charger
 let monthsLoaded = 4;
@@ -28,34 +28,35 @@ fetch('operations.csv')
 		const now = new Date(Date.now());
 		rows.forEach((row) => {
 			if (row.dateOp && row.dateOp !== '') {
-			const date = setDate(row.dateOp, row.label);
-			const year = date.getFullYear();
-			const month = date.getMonth();
-			const day = date.getDate();
-			const totalMonthDiff = calcMonthDiff(now, date);
+				const date = setDate(row.dateOp, row.label);
+				const year = date.getFullYear();
+				const month = date.getMonth();
+				const day = date.getDate();
+				const totalMonthDiff = calcMonthDiff(now, date);
 
-			if (!CSVoperations[year]) {
-				CSVoperations[year] = {};
-			}
-			if (!CSVoperations[year][month]) {
-				CSVoperations[year][month] = {};
-			}
-			if (!CSVoperations[year][month][day]) {
-				CSVoperations[year][month][day] = [];
-			}
+				if (!CSVoperations[year]) {
+					CSVoperations[year] = {};
+				}
+				if (!CSVoperations[year][month]) {
+					CSVoperations[year][month] = {};
+				}
+				if (!CSVoperations[year][month][day]) {
+					CSVoperations[year][month][day] = [];
+				}
 
-			CSVoperations[year][month][day].push({
-				date: date,
-				label: row.label,
-				category: row.category,
-				categoryMain: row.categoryParent,
-				amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
-				accountLabel: row.accountLabel,
-				accountBalance: row.accountbalance
-					? parseFloat(row.accountbalance.replace(',', '.')).toFixed(2)
-					: row.accountbalance,
-				xMonthsAgo: totalMonthDiff,
-			});
+				CSVoperations[year][month][day].push({
+					date: date,
+					label: row.label,
+					category: row.category,
+					categoryMain: row.categoryParent,
+					amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
+					accountLabel: row.accountLabel,
+					accountBalance: row.accountbalance
+						? parseFloat(row.accountbalance.replace(',', '.')).toFixed(2)
+						: row.accountbalance,
+					xMonthsAgo: totalMonthDiff,
+				});
+			}
 		});
 
 		for (const year in CSVoperations) {
@@ -143,8 +144,8 @@ function displayOperations(operations, operationsElement) {
 }
 
 function editOperations() {
-	let filteredOperations = operations.slice().filter(operation => operation.date !== undefined);
-	editedOperations = filteredOperations.map(op => {
+	let filteredOperations = operations.slice().filter((operation) => operation.date !== undefined);
+	editedOperations = filteredOperations.map((op) => {
 		let newOp = Object.assign({}, op);
 		const date = new Date(op.date);
 		newOp.dateOp = date.toISOString().slice(0, 10);
@@ -168,7 +169,7 @@ function setDate(dateOp, label) {
 	let date = dateOp ? new Date(dateOp) : undefined;
 	let match = label ? label.match(dateFormat) : undefined;
 	if (match) {
-		const [day, month, year] = match[0].split("/").map(Number);
+		const [day, month, year] = match[0].split('/').map(Number);
 		date = new Date(year + 2000, month - 1, day);
 	}
 	return date;
