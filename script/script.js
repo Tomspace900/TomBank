@@ -1,13 +1,19 @@
+// liste des operations mappée
+let operations = [];
+// liste des operations editées
+let editedOperations = [];
+// élément HTML qui contient les operations
+const operationsElement = document.getElementById('operations');
+// bouton pour sauvegarder les operations dans un nouveau fichier CSV
+const saveButton = document.getElementById("save-button");
+saveButton.addEventListener("click", () => {
+	createNewCSV("new_operations.csv");
+});
+// nombre de mois à charger
 let monthsLoaded = 4;
-
-// Déclaration et initialisation de loadMoreButton en dehors de la chaîne de promesses
+// bouton pour charger plus d'operations
 const loadMoreButton = document.createElement('button');
 loadMoreButton.innerText = 'Charger plus';
-
-// Déclaration des variables operations et operationsElement en dehors de la chaîne de promesses
-let operations = [];
-const operationsElement = document.getElementById('operations');
-
 loadMoreButton.addEventListener('click', () => {
 	monthsLoaded += 3;
 	operationsElement.innerHTML = '';
@@ -21,7 +27,7 @@ fetch('operations.csv')
 		const rows = Papa.parse(text, { header: true }).data;
 		const now = new Date(Date.now());
 		rows.forEach((row) => {
-			const date = new Date(row.dateOp);
+			const date = setDate(row.dateOp, row.label);
 			const year = date.getFullYear();
 			const month = date.getMonth();
 			const day = date.getDate();
@@ -41,7 +47,7 @@ fetch('operations.csv')
 				date: date,
 				label: row.label,
 				category: row.category,
-				categoryParent: row.categoryParent,
+				categoryMain: row.categoryParent,
 				amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
 				accountLabel: row.accountLabel,
 				accountBalance: row.accountbalance
@@ -56,30 +62,40 @@ fetch('operations.csv')
 				for (const day in CSVoperations[year][month]) {
 					operations = operations.concat(CSVoperations[year][month][day]);
 				}
+				// ajoute un séparateur entre les mois
 				const separatorDate = new Date(year, month, 0);
 				operations.push({
-					date: 'undefined',
+					date: undefined,
 					label: getMonthName(parseInt(month, 10)) + ' ' + year,
 					category: 'separator',
-					categoryParent: 'undefined',
-					amount: 'undefined',
-					accountLabel: 'undefined',
-					accountBalance: 'undefined',
+					categoryMain: undefined,
+					amount: undefined,
+					accountLabel: undefined,
+					accountBalance: undefined,
 					xMonthsAgo: calcMonthDiff(now, separatorDate) - 1,
 				});
 			}
 		}
+		// filtrage des operations
+		filterOperations(operations);
+		// inversion de la liste pour mettre le plus récent en haut
 		operations.reverse();
+		// affichage des operations dans le HTML
 		displayOperations(operations, operationsElement);
+		// creation de la liste des operations editées
+		editOperations();
 
-		console.log(CSVoperations);
-		console.log(operations);
-		console.log(monthsLoaded);
+		console.log('CSVoperations', CSVoperations);
+		console.log('operations', operations);
+		console.log('editedOperations', editedOperations);
+		console.log('monthsLoaded', monthsLoaded);
 	});
 
 function displayOperations(operations, operationsElement) {
 	operations.forEach((operation) => {
+		// si l'operation est plus ancienne que le nombre de mois à charger, on l'ignore
 		if (operation.xMonthsAgo < monthsLoaded) {
+			// separateur
 			if (operation.category === 'separator') {
 				const separatorElement = document.createElement('div');
 				separatorElement.innerText = operation.label;
@@ -116,12 +132,45 @@ function displayOperations(operations, operationsElement) {
 					amountElement.innerText = '+' + operation.amount + '€';
 				}
 				operationElement.appendChild(amountElement);
-				assignClasses(operation, operationElement); // assign classes to operationElement based on operation properties
+				// assign classes to operationElement based on operation properties
+				assignClasses(operation, operationElement);
 				operationsElement.appendChild(operationElement);
 			}
 		}
 	});
 	operationsElement.appendChild(loadMoreButton);
+}
+
+function editOperations() {
+	let filteredOperations = operations.slice().filter(operation => operation.date !== undefined);
+	editedOperations = filteredOperations.map(op => {
+		let newOp = Object.assign({}, op);
+		const date = new Date(op.date);
+		newOp.dateOp = date.toISOString().slice(0, 10);
+		newOp.categoryParent = op.categoryMain;
+		delete newOp.xMonthAgo;
+		delete newOp.date;
+		delete newOp.categoryMain;
+		return newOp;
+	});
+}
+
+function createNewCSV(fileName) {
+	editOperations();
+	const csvString = Papa.unparse(editedOperations);
+	const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8' });
+	saveAs(blob, fileName);
+}
+
+function setDate(dateOp, label) {
+	const dateFormat = /\d{2}\/\d{2}\/\d{2}/;
+	let date = new Date(dateOp);
+	let match = label.match(dateFormat);
+	if (match) {
+		const [day, month, year] = match[0].split("/").map(Number);
+		date = new Date(year + 2000, month - 1, day);
+	}
+	return date;
 }
 
 function calcMonthDiff(now, date) {

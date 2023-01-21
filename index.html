@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="style.css" />
-		<meta charset="utf-8" />
-		<title>TomBank</title>
-	</head>
-	<body>
-		<h1>TomBank</h1>
-		<div id="operations">
-			<div class="operation">
-				<div class="operation-icon"></div>
-				<div class="operation-content">
-					<div class="operation-label">[label]</div>
-					<div class="operation-date">[date]</div>
-				</div>
-				<div class="operation-amount">[amount]</div>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="style/style.css" />
+	<meta charset="utf-8" />
+	<title>TomBank</title>
+</head>
+
+<body>
+	<h1>TomBank</h1>
+	<button id="save-button">Save</button>
+	<div id="operations">
+		<div class="operation">
+			<div class="operation-icon"></div>
+			<div class="operation-content">
+				<div class="operation-label">[label]</div>
+				<div class="operation-date">[date]</div>
 			</div>
+			<div class="operation-amount">[amount]</div>
 		</div>
-	</body>
+	</div>
+</body>
+
 </html>
 
+<!-- CSV parser -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
-<script src="filters.js"></script>
-<script src="script.js"></script>
+<!-- file saver -->
+<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script src="script/filters.js"></script>
+<script src="script/categories.js"></script>
+<script src="script/script.js"></script>
+
+<!-- TODO : 
+- edit category with UI
+- rename labels 'CARTE 09/01/23' et 'CD*1642'
+- rename labels 'okali' -> 'lydia'
+- account recognition
+- account balance ATM ?
+- button design
+- css animations
+- file input
+- filters : date, amount, category, name
+-->

@@ -1,4 +1,5 @@
 @import url('https://use.typekit.net/ztf0xal.css');
+@import 'category.css';
 
 * {
 	font-family: anonymous-pro, sans-serif;
@@ -28,13 +29,26 @@ body {
 	border-radius: 15px;
 }
 
+.operation:hover {
+	background-color: #a0a0a01d;
+}
+
 .operation-icon {
 	display: inline-block;
 	min-width: 60px;
 	height: 60px;
-	background-color: #47cfc3aa;
+	background-color: #dadada;
 	border-radius: 50%;
 	margin-right: 10px;
+}
+
+.operation-icon::before {
+	font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .operation-content {
@@ -68,22 +82,6 @@ body {
 
 .positive {
 	color: #61cb7d;
-}
-
-.peages > .operation-icon {
-	background-color: #f8e32aaa;
-}
-
-.salaire_variable > .operation-icon {
-	background-color: #99e5ae;
-}
-
-.fast-food > .operation-icon {
-	background-color: #ee7b71;
-}
-
-.courses > .operation-icon {
-	background-color: #c3e267;
 }
 
 .separator {
