@@ -11,8 +11,9 @@ fetch('operations.csv')
 		const CSVoperations = {};
 		const rows = Papa.parse(text, { header: true }).data;
 		const now = new Date(Date.now());
-		rows.forEach((row) => {
+		rows.forEach((row, index) => {
 			if (row.dateOp && row.dateOp !== '') {
+				const id = index;
 				const date = setDate(row.dateOp, row.label);
 				const year = date.getFullYear();
 				const month = date.getMonth();
@@ -30,6 +31,7 @@ fetch('operations.csv')
 				}
 
 				CSVoperations[year][month][day].push({
+					id: id,
 					date: date,
 					label: row.label,
 					category: row.category,
@@ -90,10 +92,50 @@ function displayOperations(operations, operationsElement) {
 				operationsElement.appendChild(separatorElement);
 			} else if (operation.date) {
 				const operationElement = document.createElement('li');
+				operationElement.id = operation.id;
 
+				// créer la div contenant l'icone
 				const iconElement = document.createElement('div');
 				iconElement.classList.add('operation-icon');
 				operationElement.appendChild(iconElement);
+
+				// ajoute un eventlistener au click sur l'icone
+				iconElement.addEventListener('click', function () {
+					operationPopup.style.display = 'block';
+				});
+
+				const operationPopup = document.createElement('div');
+				operationPopup.classList.add('operation-popup');
+				operationElement.appendChild(operationPopup);
+
+				let timeoutId;
+				operationPopup.addEventListener('mouseleave', function () {
+					timeoutId = setTimeout(() => {
+						operationPopup.style.display = 'none';
+					}, 500);
+				});
+				operationPopup.addEventListener('mouseenter', function () {
+					clearTimeout(timeoutId);
+				});
+
+				const operationDropdown = document.createElement('ul');
+				operationDropdown.classList.add('operation-dropdown');
+				operationPopup.appendChild(operationDropdown);
+
+				for (const key in categoriesId) {
+					const li = document.createElement('li');
+					li.innerHTML = categoriesId[key];
+					li.setAttribute('categoryId', key);
+					operationDropdown.appendChild(li);
+				}
+
+				operationDropdown.querySelectorAll('li').forEach(function (li) {
+					li.addEventListener('click', function () {
+						const categoryId = li.getAttribute('categoryId');
+						handleCategory(categoryId, operation.id);
+						operationPopup.style.display = 'none';
+					});
+				});
 
 				const contentElement = document.createElement('div');
 				contentElement.classList.add('operation-content');
@@ -119,13 +161,29 @@ function displayOperations(operations, operationsElement) {
 					amountElement.innerText = '+' + operation.amount + '€';
 				}
 				operationElement.appendChild(amountElement);
-				// assign classes to operationElement based on operation properties
+				// assign style to operationElement based on operation properties
 				assignClasses(operation, operationElement);
+				assignStyles(operation.category, operationElement);
 				operationsElement.appendChild(operationElement);
 			}
 		}
 	});
 	operationsElement.appendChild(loadMoreButton);
+}
+
+function handleCategory(categoryId, operationId, operationElement) {
+	const category = categoriesId[categoryId];
+	// find the operation in the operations array
+	const operation = operations.find((op) => op.id === operationId);
+	const editedOperation = editedOperations.find((op) => op.id === operationId);
+	// update the category of the operation
+	operation.category = category;
+	editedOperation.category = category;
+	// update the operation in the DOM
+	operationElement = document.getElementById(operationId);
+	assignStyles(category, operationElement);
+	// log the update
+	console.log('Updating operation ' + operationId + ' with category :' + categoriesId[categoryId]);
 }
 
 function editOperations() {

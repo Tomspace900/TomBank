@@ -12,21 +12,21 @@
 			<button id="save-button">Save file</button>
 		</div>
 		<ul id="operations">
-			<li class="operation">
+			<!-- <li class="operation">
 				<div class="operation-icon" id="operation-icon"></div>
 				<div class="operation-content">
 					<div class="operation-label">[label]</div>
 					<div class="operation-date">[date]</div>
 				</div>
 				<div class="operation-amount">[amount]</div>
-				<div class="popup" id="popup">
-					<ul class="dropdown">
+				<div class="operation-popup">
+					<ul class="operation-dropdown">
 						<li>Option 1</li>
 						<li>Option 2</li>
 						<li>Option 3</li>
 					</ul>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 		<!-- bouton pour remonter en haut de la page -->
 		<button id="scroll-top-button">
@@ -53,12 +53,14 @@
 <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 <script src="script/buttons.js"></script>
 <script src="script/filters.js"></script>
-<script src="script/categories.js"></script>
+<script src="script/lists.js"></script>
 <script src="script/script.js"></script>
 
 <!-- TODO : 
 - /!\ add id to operations /!\
 - edit category with UI
+- stocker editedOperations dans un fichier
+- edit label with UI
 - rename labels 'CARTE 09/01/23' et 'CD*1642'
 - rename labels 'okali' -> 'lydia'
 - account recognition

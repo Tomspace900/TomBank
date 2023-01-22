@@ -1,6 +1,9 @@
 function filterOperations(operations) {
 	operations.forEach((operation) => {
-		if (filterOnLabelAndCategories(operation)) {
+		if (operation.category === 'Autorisation paiement / retrait en cours' || operation.category === 'Autorisation en cours') {
+			operation.category = 'Autorisation en cours';
+			console.log('caca');
+		} else if (filterOnLabelAndCategories(operation)) {
 		} else if (operation.category !== ('separator' || 'undefined' || undefined)) {
 			operation.category = 'autres';
 		}
@@ -49,14 +52,24 @@ function assignClasses(operation, operationElement) {
 			classes.push(formatString(operation.accountLabel));
 			break;
 	}
-	// ajoute la ou les catégorie(s)
-	classes.push(formatString(operation.category));
 	// ajoute la classe credit ou debit
 	classes.push(operation.amount > 0 ? 'credit' : 'debit');
 	// boucle sur la liste pour ajouter toutes les classes à l'élément
 	classes.forEach((className) => {
 		operationElement.classList.add(className);
 	});
+}
+
+function assignStyles(category, operationElement) {
+	// get the color for the operation's category
+	const color = categoryColors[category];
+	const operationIcon = operationElement.querySelector('.operation-icon');
+	// set the background color of the operation element
+	operationIcon.style.border = 'none';
+	operationIcon.style.backgroundColor = color;
+	category === 'Autorisation en cours'
+		? ((operationIcon.style.border = 'dashed black 1px'), (operationIcon.style.backgroundColor = '#ffffff'))
+		: '';
 }
 
 function formatString(string) {

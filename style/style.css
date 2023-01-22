@@ -1,5 +1,4 @@
 @import url('https://use.typekit.net/ztf0xal.css');
-@import 'category.css';
 
 * {
 	font-family: anonymous-pro, sans-serif;
@@ -69,6 +68,8 @@ body {
 }
 
 .operation-icon::before {
+	content: '';
+	cursor: pointer;
 	font-size: 40px;
 	display: flex;
 	justify-content: center;
@@ -115,7 +116,7 @@ body {
 	padding: 10px 0;
 }
 
-.popup {
+.operation-popup {
 	position: absolute;
 	display: none;
 	background-color: white;
@@ -123,29 +124,25 @@ body {
 	box-shadow: 0 4px 8px 0 rgba(160, 160, 160, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#operation-icon::before {
-	content: '';
-	cursor: pointer;
-}
-
-#operation-icon:hover + #popup {
+.operation-icon:hover + .operation-popup {
 	display: block;
 }
 
-.dropdown {
+.operation-dropdown {
 	list-style: none;
 	padding: 10px 10px;
 	margin: 0;
 }
 
-.dropdown li {
+.operation-dropdown li {
 	padding: 10px 15px;
-	border-radius: 15px;
+	border-radius: 50px;
 	cursor: pointer;
 }
 
-.dropdown li:hover {
-	background-color: #f4f4f4;
+.operation-dropdown li:hover {
+	background-color: black;
+	color: white;
 }
 
 button {

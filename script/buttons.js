@@ -37,11 +37,3 @@ function toggleButton() {
 }
 // Ajout d'un écouteur d'événement pour l'événement "scroll" sur la fenêtre
 window.addEventListener('scroll', toggleButton);
-
-// popup
-const operationIcon = document.getElementById('operation-icon');
-const popup = document.getElementById('popup');
-// Ajout d'un écouteur d'événement pour l'événement "click" sur le bouton
-operationIcon.addEventListener('click', function () {
-	popup.style.display = 'block';
-});
