@@ -37,3 +37,10 @@ function toggleButton() {
 }
 // Ajout d'un écouteur d'événement pour l'événement "scroll" sur la fenêtre
 window.addEventListener('scroll', toggleButton);
+
+const fileInput = document.getElementById('file-input');
+const fileButton = document.getElementById('file-button');
+// fonction de file input au bouton
+fileButton.addEventListener('click', function () {
+	fileInput.click();
+});

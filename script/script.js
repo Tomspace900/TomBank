@@ -1,84 +1,127 @@
+window.onload = loadEditedOperations;
+
+// liste des operations brutes
+let CSVoperations = {};
 // liste des operations mappée
 let operations = [];
 // liste des operations editées
 let editedOperations = [];
 // élément HTML qui contient les operations
 const operationsElement = document.getElementById('operations');
+// date de la dernier operation
+let lastOperation = null;
 
-fetch('operations.csv')
-	.then((response) => response.text())
-	.then((text) => {
-		const CSVoperations = {};
-		const rows = Papa.parse(text, { header: true }).data;
-		const now = new Date(Date.now());
-		rows.forEach((row, index) => {
-			if (row.dateOp && row.dateOp !== '') {
-				const id = index;
-				const date = setDate(row.dateOp, row.label);
-				const year = date.getFullYear();
-				const month = date.getMonth();
-				const day = date.getDate();
-				const totalMonthDiff = calcMonthDiff(now, date);
+// fonction principale
+function handleData(rows) {
+	// reset all variables
+	CSVoperations = {};
+	operations = [];
+	editedOperations = [];
+	operationsElement.innerHTML = '';
+	lastOperation = null;
+	// création d'un objet avec les operations par date
+	createCSVoperations(rows);
+	// création de la liste des operations
+	createOperations();
+	// filtrage des operations
+	filterOperations(operations);
+	// affichage des operations dans le HTML
+	displayOperations(operations, operationsElement);
+	// creation de la liste des operations editées
+	editOperations();
 
-				if (!CSVoperations[year]) {
-					CSVoperations[year] = {};
-				}
-				if (!CSVoperations[year][month]) {
-					CSVoperations[year][month] = {};
-				}
-				if (!CSVoperations[year][month][day]) {
-					CSVoperations[year][month][day] = [];
-				}
+	// logs
+	console.log('CSVoperations', CSVoperations);
+	console.log('operations', operations);
+	console.log('editedOperations', editedOperations);
+	console.log('monthsLoaded', monthsLoaded);
+}
 
-				CSVoperations[year][month][day].push({
-					id: id,
-					date: date,
-					label: row.label,
-					category: row.category,
-					categoryMain: row.categoryParent,
-					amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
-					accountLabel: row.accountLabel,
-					accountBalance: row.accountbalance
-						? parseFloat(row.accountbalance.replace(',', '.')).toFixed(2)
-						: row.accountbalance,
-					xMonthsAgo: totalMonthDiff,
-				});
+// bouton pour charger un fichier CSV
+fileInput.addEventListener('change', (event) => {
+	const file = event.target.files[0];
+	const reader = new FileReader();
+	reader.onload = (event) => {
+		const data = event.target.result;
+		// parse the CSV data and process it
+		const rows = Papa.parse(data, { header: true }).data;
+
+		handleData(rows);
+	};
+	reader.readAsText(file);
+});
+
+// check le local storage
+function loadEditedOperations() {
+	const localStorageEditedOperations = fetchLocalStorage('editedOperations');
+	if (localStorageEditedOperations) {
+		const data = JSON.parse(localStorageEditedOperations);
+
+		handleData(data);
+	}
+}
+
+function createCSVoperations(data) {
+	data.forEach((row, index) => {
+		if (row.dateOp && row.dateOp !== '') {
+			const id = index;
+			const date = setDate(row.dateOp, row.label);
+			const year = date.getFullYear();
+			const month = date.getMonth();
+			const day = date.getDate();
+			lastOperation === null ? (lastOperation = new Date(date)) : null;
+			const totalMonthDiff = calcMonthDiff(lastOperation, date);
+
+			if (!CSVoperations[year]) {
+				CSVoperations[year] = {};
 			}
-		});
-
-		for (const year in CSVoperations) {
-			for (const month in CSVoperations[year]) {
-				for (const day in CSVoperations[year][month]) {
-					operations = operations.concat(CSVoperations[year][month][day]);
-				}
-				// ajoute un séparateur entre les mois
-				const separatorDate = new Date(year, month, 0);
-				operations.push({
-					date: undefined,
-					label: getMonthName(parseInt(month, 10)) + ' ' + year,
-					category: 'separator',
-					categoryMain: undefined,
-					amount: undefined,
-					accountLabel: undefined,
-					accountBalance: undefined,
-					xMonthsAgo: calcMonthDiff(now, separatorDate) - 1,
-				});
+			if (!CSVoperations[year][month]) {
+				CSVoperations[year][month] = {};
 			}
+			if (!CSVoperations[year][month][day]) {
+				CSVoperations[year][month][day] = [];
+			}
+
+			CSVoperations[year][month][day].push({
+				id: id,
+				date: date,
+				label: row.label,
+				category: row.category,
+				categoryMain: row.categoryParent,
+				amount: row.amount ? parseFloat(row.amount.replace(',', '.')).toFixed(2) : row.amount,
+				accountLabel: row.accountLabel,
+				accountBalance: row.accountbalance
+					? parseFloat(row.accountbalance.replace(',', '.')).toFixed(2)
+					: row.accountbalance,
+				xMonthsAgo: totalMonthDiff,
+			});
 		}
-		// filtrage des operations
-		filterOperations(operations);
-		// inversion de la liste pour mettre le plus récent en haut
-		operations.reverse();
-		// affichage des operations dans le HTML
-		displayOperations(operations, operationsElement);
-		// creation de la liste des operations editées
-		editOperations();
-
-		console.log('CSVoperations', CSVoperations);
-		console.log('operations', operations);
-		console.log('editedOperations', editedOperations);
-		console.log('monthsLoaded', monthsLoaded);
 	});
+}
+
+function createOperations() {
+	for (const year in CSVoperations) {
+		for (const month in CSVoperations[year]) {
+			for (const day in CSVoperations[year][month]) {
+				operations = operations.concat(CSVoperations[year][month][day]);
+			}
+			// ajoute un séparateur entre les mois
+			const separatorDate = new Date(year, month, 0);
+			operations.push({
+				date: undefined,
+				label: getMonthName(parseInt(month, 10)) + ' ' + year,
+				category: 'separator',
+				categoryMain: undefined,
+				amount: undefined,
+				accountLabel: undefined,
+				accountBalance: undefined,
+				xMonthsAgo: calcMonthDiff(lastOperation, separatorDate) - 1,
+			});
+		}
+	}
+	// inversion de la liste pour mettre le plus récent en haut
+	operations.reverse();
+}
 
 function displayOperations(operations, operationsElement) {
 	operations.forEach((operation) => {
@@ -112,7 +155,7 @@ function displayOperations(operations, operationsElement) {
 				operationPopup.addEventListener('mouseleave', function () {
 					timeoutId = setTimeout(() => {
 						operationPopup.style.display = 'none';
-					}, 500);
+					}, 350);
 				});
 				operationPopup.addEventListener('mouseenter', function () {
 					clearTimeout(timeoutId);
@@ -178,7 +221,10 @@ function handleCategory(categoryId, operationId, operationElement) {
 	const editedOperation = editedOperations.find((op) => op.id === operationId);
 	// update the category of the operation
 	operation.category = category;
+	operation.categoryMain = 'Modifié';
 	editedOperation.category = category;
+	editedOperation.categoryParent = 'Modifié';
+	saveLocalStorage('editedOperations', editedOperations);
 	// update the operation in the DOM
 	operationElement = document.getElementById(operationId);
 	assignStyles(category, operationElement);
@@ -198,6 +244,20 @@ function editOperations() {
 		delete newOp.categoryMain;
 		return newOp;
 	});
+	saveLocalStorage('editedOperations', editedOperations);
+}
+
+function fetchLocalStorage(string) {
+	if (localStorage.getItem(string)) {
+		return localStorage.getItem(string);
+	} else {
+		return false;
+	}
+}
+
+function saveLocalStorage(string, list) {
+	localStorage.setItem(string, JSON.stringify(list));
+	console.log('Data saved in localStorage: ', string, list);
 }
 
 function createNewCSV(fileName) {
@@ -218,8 +278,8 @@ function setDate(dateOp, label) {
 	return date;
 }
 
-function calcMonthDiff(now, date) {
-	return (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+function calcMonthDiff(lastOperation, date) {
+	return (lastOperation.getFullYear() - date.getFullYear()) * 12 + (lastOperation.getMonth() - date.getMonth());
 }
 
 function formatDate(date) {

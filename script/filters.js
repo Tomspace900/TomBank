@@ -1,11 +1,14 @@
 function filterOperations(operations) {
 	operations.forEach((operation) => {
-		if (operation.category === 'Autorisation paiement / retrait en cours' || operation.category === 'Autorisation en cours') {
-			operation.category = 'Autorisation en cours';
-			console.log('caca');
+		if (operation.categoryMain === 'Modifié') {
+		} else if (
+			operation.category === 'Autorisation paiement / retrait en cours' ||
+			operation.category === 'Autorisation en cours'
+		) {
+			operation.category = categoriesId[23];
 		} else if (filterOnLabelAndCategories(operation)) {
 		} else if (operation.category !== ('separator' || 'undefined' || undefined)) {
-			operation.category = 'autres';
+			operation.category = categoriesId[22];
 		}
 	});
 	return operations;

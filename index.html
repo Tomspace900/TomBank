@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<link rel="stylesheet" type="text/css" href="style/compiled/style.css" />
 		<meta charset="utf-8" />
 		<title>TomBank</title>
 	</head>
@@ -9,7 +9,29 @@
 	<body>
 		<div id="header">
 			<h1 id="title">🏦 TomBank</h1>
-			<button id="save-button">Save file</button>
+			<div id="header-right">
+				<button id="file-button">
+					<svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+						<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+						<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+						<line x1="12" y1="11" x2="12" y2="17" />
+						<polyline points="9 14 12 11 15 14" />
+					</svg>
+					<span>Add file</span>
+				</button>
+				<input type="file" id="file-input" accept=".csv" />
+				<button id="save-button">
+					<svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+						<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+						<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+						<line x1="12" y1="11" x2="12" y2="17" />
+						<polyline points="9 14 12 17 15 14" />
+					</svg>
+					<span>Save file</span>
+				</button>
+			</div>
 		</div>
 		<ul id="operations">
 			<!-- <li class="operation">
@@ -30,16 +52,7 @@
 		</ul>
 		<!-- bouton pour remonter en haut de la page -->
 		<button id="scroll-top-button">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="icon icon-tabler icon-tabler-chevron-up"
-				width="44"
-				height="44"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			>
+			<svg viewBox="0 0 24 24" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
 				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 				<polyline points="6 15 12 9 18 15" />
 			</svg>
@@ -51,22 +64,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
 <!-- file saver -->
 <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script src="script/lists.js"></script>
 <script src="script/buttons.js"></script>
 <script src="script/filters.js"></script>
-<script src="script/lists.js"></script>
 <script src="script/script.js"></script>
 
 <!-- TODO : 
-- /!\ add id to operations /!\
 - edit category with UI
-- stocker editedOperations dans un fichier
 - edit label with UI
 - rename labels 'CARTE 09/01/23' et 'CD*1642'
 - rename labels 'okali' -> 'lydia'
 - account recognition
 - account balance ATM ?
-- button design
 - css animations
-- file input
 - filters : date, amount, category, name
+-->
+
+<!-- FIX :
+- popup div out of screen
+- changes not saved when you add a file
+-->
+
+<!-- DONE : 
+- file input
+- /!\ add id to operations /!\
+- stock editedOperations in a file
+- button design
 -->
