@@ -1,0 +1,15 @@
+:root {
+	--shadow-grey: 0px 0px 5px 5px #63636333;
+	--shadow-grey-small: 0px 0px 10px 2px #6363631e;
+	--vert-fonce: #263d2b;
+	--vert: #577a72;
+	--beige: #e6dad2;
+	--orange-fonce: #f27d67;
+	--orange: #f2ab82;
+}
+
+@import url('https://use.typekit.net/ztf0xal.css');
+
+* {
+	font-family: anonymous-pro, sans-serif;
+}

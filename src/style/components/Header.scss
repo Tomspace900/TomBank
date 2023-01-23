@@ -1,0 +1,65 @@
+#header {
+	position: fixed;
+	display: flex;
+	width: 100%;
+	max-width: 1000px;
+	height: 120px;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 80px;
+	z-index: 1;
+	pointer-events: none;
+	background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.945), rgba(255, 255, 255, 1));
+
+	> * {
+		pointer-events: auto;
+	}
+
+	&-right {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	button {
+		& svg {
+			height: 1.2em;
+			width: 1.2em;
+			margin-right: 10px;
+			stroke: white;
+			fill: none;
+			transition: all 0.2s ease-in-out;
+		}
+
+		&:hover svg {
+			stroke: black;
+			fill: none;
+		}
+	}
+
+	input {
+		display: none;
+	}
+}
+
+#title {
+	font-size: 3em;
+}
+
+@media screen and (max-width: 1000px) {
+	#header {
+		max-width: 750px;
+	}
+}
+
+@media screen and (max-width: 750px) {
+	#header {
+		&-right button span {
+			display: none;
+		}
+
+		&-right button svg {
+			margin: 0;
+		}
+	}
+}
